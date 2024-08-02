@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-console.log(process.env.DATA_BASE_URL)
-mongoose.connect(process.env.DATA_BASE_URL + '/proctorPro');
+mongoose.connect(process.env.DATA_BASE_URL);
 
 
 const StudentSchema = mongoose.Schema({
