@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-mongoose.connect(process.env.DATA_BASE_URL);
 
+console.log(process.env.DATA_BASE_URL)
+mongoose.connect(process.env.DATA_BASE_URL);
 
 const StudentSchema = mongoose.Schema({
   name: String ,
