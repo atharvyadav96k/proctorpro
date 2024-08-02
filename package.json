@@ -1,0 +1,22 @@
+{
+  "name": "proctro",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "chance": "^1.1.11",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "faker": "^5.5.3",
+    "http-errors": "~1.6.3",
+    "moment": "^2.30.1",
+    "mongoose": "^8.2.1",
+    "morgan": "~1.9.1",
+    "simple-encryptor": "^4.0.0"
+  }
+}

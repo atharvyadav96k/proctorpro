@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="/stylesheets/form.css"> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar bg-body-tertiary ">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#" style="display: flex;justify-content: center;align-items: center;">
+                    <img src="/images/adaptive-icon.png" alt="Logo" width="70" height="70"
+                        class="d-inline-block align-text-top">
+                    ProctorCalling
+                </a>
+                <p>@<%=username%>
+                </p>
+            </div>
+        </nav>
+        <ul class="list-group list-group-numbered" style="margin-top: 50px; width: calc(100% - 50px); margin: auto">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">Username</div>
+                    <%=username%>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">Mobile Number</div>
+                    <%=phoneNumber%>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">Approved</div>
+                    <% if(approveData){%>
+                        <p>Approved</p>
+                        <%} else{ %>
+                            <p>Not Approved</p>
+                            <% } %>
+                                <% if(!approveData){ %>
+                                    <button class="btn btn-success" onclick="approve()">Approve</button>
+                                    <% } else { %>
+                                        <button class="btn btn-danger" onclick="unauthorize()">unauthorize</button>
+                                        <% } %>
+                </div>
+            </li>
+            <li class="list-group-item align-items-start">
+                <% if(Class == 'No'){ %>
+                    <div class="ms-2 me-auto" style="position: relative;">
+                        <div class="fw-bold">Assign Class</div>
+                        <div class="d-flex flex-wrap">
+                            <div class="m-2">
+                                <label for="exampleInputEmail1" class="form-label">Year</label>
+                                <select class="form-select form" aria-label="Default select example" id="Class">
+                                    <option value="FY">First Year</option>
+                                    <option value="SY">Second Year</option>
+                                    <option value="TY">Third Year</option>
+                                    <option value="LY">Last Year</option>
+                                </select>
+                            </div>
+                            <div class="m-2">
+                                <label for="exampleInputEmail1" class="form-label">Department</label>
+                                <select class="form-select form" aria-label="Default select example" id="department">
+                                    <option value="CSE">Computer science and engineering
+                                    </option>
+                                    <option value="EE">Electrical Engineering</option>
+                                    <option value="AIDS">Artificial Intelligent and Data
+                                        science
+                                    </option>
+                                    <option value="Mechanical">Mechanical</option>
+                                    <option value="Civil">Civil</option>
+                                </select>
+                            </div>
+                            <div class="m-2">
+                                <label for="exampleInputEmail1" class="form-label">Division</label>
+                                <select class="form-select form" aria-label="Default select example" id="division">
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                    <option value="F">F</option>
+                                    <option value="G">G</option>
+                                    <option value="H">H</option>
+                                </select>
+                            </div>
+                            <div class="m-2">
+                                <Button class="btn btn-success" style="margin: 30px;" onclick="updateData()">Submit</Button>
+                            </div>
+                        </div>
+                    </div>
+                <% } else{ %>
+                    <div class="d-flex justify-content-between align-item-center flex-wrap">
+                        <span><%=Class %> <%=div %> <%=dep %> </span><button class="btn btn-danger ml-4" onclick="resetData()">reset</button>
+                    </div>
+                    
+                <% } %>
+            </li>
+        </ul>
+        <script>
+            let uname = '<%= username %>';
+            async function approve() {
+                await fetch('http://localhost:3000/approve', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // Adjust content type as needed
+                    },
+                    body: JSON.stringify({ username: uname })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json(); // Assuming response is JSON
+                    })
+                    .then(data => {
+                        // Handle the data received from the server
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+                    location.reload();
+            }
+            async function unauthorize() {
+                await fetch('http://localhost:3000/unauthorize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // Adjust content type as needed
+                    },
+                    body: JSON.stringify({ username: uname })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json(); // Assuming response is JSON
+                    })
+                    .then(data => {
+                        // Handle the data received from the server
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+                    await resetData();
+                    location.reload();
+            }
+            async function updateData(){
+                await fetch('http://localhost:3000/setClass', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // Adjust content type as needed
+                    },
+                    body: JSON.stringify({ username: uname , Class : document.getElementById('Class').value, dep: document.getElementById('department').value, div: document.getElementById('division').value})
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json(); // Assuming response is JSON
+                    })
+                    .then(data => {
+                        // Handle the data received from the server
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+                    location.reload();
+            }
+            async function resetData(){
+                await fetch('http://localhost:3000/deleteClass', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // Adjust content type as needed
+                    },
+                    body: JSON.stringify({ username: uname})
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json(); // Assuming response is JSON
+                    })
+                    .then(data => {
+                        // Handle the data received from the server
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+                    location.reload();
+            }
+        </script>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+
+    </script>
+    <script src="/javascripts/form.js">  </script>
+</body>
+
+</html>
