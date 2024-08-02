@@ -109,7 +109,7 @@
         <script>
             let uname = '<%= username %>';
             async function approve() {
-                await fetch('http://localhost:3000/approve', {
+                await fetch('/approve', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json' // Adjust content type as needed
