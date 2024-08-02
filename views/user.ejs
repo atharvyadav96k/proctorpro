@@ -132,7 +132,7 @@
                     location.reload();
             }
             async function unauthorize() {
-                await fetch('http://localhost:3000/unauthorize', {
+                await fetch('/unauthorize', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json' // Adjust content type as needed
@@ -156,7 +156,7 @@
                     location.reload();
             }
             async function updateData(){
-                await fetch('http://localhost:3000/setClass', {
+                await fetch('/setClass', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json' // Adjust content type as needed
@@ -179,7 +179,7 @@
                     location.reload();
             }
             async function resetData(){
-                await fetch('http://localhost:3000/deleteClass', {
+                await fetch('/deleteClass', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json' // Adjust content type as needed
