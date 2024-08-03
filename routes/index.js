@@ -33,7 +33,7 @@ router.get('/', function (req, res) {
 router.get('/register/student', function (req, res) {
   res.render('upload')
 })
-router.get('/fsdjghjksdghsdgsdgdf/g09sdg80dsg9g-dsgds/gd9-gd-sgsdg9df0g8ds0fgdsfg', isLoggedIn, async function (req, res) {
+router.get('/fsdjghjksdghsdgsdgdf/g09sdg80dsg9g-dsgds/gd9-gd-sgsdg9df0g8ds0fgdsfg',  async function (req, res) {
   try {
     const data = await loginSchema.find();
     res.render('admin', {
@@ -45,7 +45,7 @@ router.get('/fsdjghjksdghsdgsdgdf/g09sdg80dsg9g-dsgds/gd9-gd-sgsdg9df0g8ds0fgdsf
   }
 
 })
-router.post('/approve', isLoggedIn, async function (req, res) {
+router.post('/approve',  async function (req, res) {
   try {
     const data = await loginSchema.findOneAndUpdate({ username: req.body.username }, { approved: true }, { new: true });
     res.status(200).send({ message: "approved successfully", success: true })
@@ -54,7 +54,7 @@ router.post('/approve', isLoggedIn, async function (req, res) {
     res.status(500).send({ message: `${error}`, success: false })
   }
 })
-router.post('/unauthorize', isLoggedIn, async function (req, res) {
+router.post('/unauthorize',  async function (req, res) {
   try {
     const data = await loginSchema.findOneAndUpdate({ username: req.body.username }, { approved: false }, { new: true });
     res.status(200).send({ message: "unauthorized successfully", success: true })
@@ -63,7 +63,7 @@ router.post('/unauthorize', isLoggedIn, async function (req, res) {
     res.status(500).send({ message: `${error}`, success: false })
   }
 })
-router.post('/setClass', isLoggedIn, async function (req, res) {
+router.post('/setClass',  async function (req, res) {
   const { username, Class, div, dep } = req.body;
   try {
     const data = await loginSchema.findOneAndUpdate({ username }, { proctorClass: Class, proctorDep: dep, proctorDiv: div }, { new: true });
@@ -72,7 +72,7 @@ router.post('/setClass', isLoggedIn, async function (req, res) {
     res.status(500).send({ message: `error: ${error}`, success: false })
   }
 })
-router.post('/deleteClass', isLoggedIn, async function (req, res) {
+router.post('/deleteClass',  async function (req, res) {
   const { username } = req.body;
   try {
     const data = await loginSchema.findOneAndUpdate({ username }, { $unset: { proctorClass: "", proctorDep: "", proctorDiv: "" } }, { new: true });
@@ -81,7 +81,7 @@ router.post('/deleteClass', isLoggedIn, async function (req, res) {
     res.status(500).send({ message: `error: ${error}`, success: false })
   }
 })
-router.get('/user/:username', isLoggedIn, async function (req, res) {
+router.get('/user/:username',  async function (req, res) {
   const data = await loginSchema.findOne({ username: req.params.username });
   let Class, dep, div;
   if (data) {
@@ -109,52 +109,18 @@ router.get('/api/v1/connect', function (req, res) {
   });
 })
 router.get("/login", async function (req, res) {  
-  console.log(Object.keys(req.cookies).length);
-  try {
-    if (!Object.keys(req.cookies).length) {
-      return res.render('login')
-    }
-    const userData = await loginSchema.findOne({ username: req.cookies.login.username });
-    if (userData && userData.approved) {
-      if (req.cookies.login.password == encryptor.decrypt(userData.password)) {
-        return res.redirect("/fsdjghjksdghsdgsdgdf/g09sdg80dsg9g-dsgds/gd9-gd-sgsdg9df0g8ds0fgdsfg");
-      }
-      else {
-
-      }
-    } else {
-      res.render("error", { message: "Internal server error", code: "500" })
-    }
-  } catch (error) {
-    console.log(error)
-    res.send("<h1>Internal Server error!!");
-  }
+  res.render("login")
 })
 router.post('/login', async function (req, res) {
-  const { username, password } = req.body;
-  try {
-    const userData = await loginSchema.findOne({ username });
-    if (userData.approved) {
-      if (password == encryptor.decrypt(userData.password)) {
-        res.cookie("login", { username: username, password: password });
-        res.redirect('/fsdjghjksdghsdgsdgdf/g09sdg80dsg9g-dsgds/gd9-gd-sgsdg9df0g8ds0fgdsfg');
-      }
-      else {
-        console.log("failed");
-        res.render("loginFail")
-      }
-    }
-  } catch (error) {
-    console.log("failed");
-    res.render("error", { message: "your not approved user", code: "402" })
-  }
+  return res.redirect('/fsdjghjksdghsdgsdgdf/g09sdg80dsg9g-dsgds/gd9-gd-sgsdg9df0g8ds0fgdsfg')
 })
 router.post('/api/v1/login', async function (req, res) {
   const { username, password } = req.body;
   console.log(username, password)
   try {
     const userData = await loginSchema.findOne({ username });
-    if (userData.approved) {
+    console.log(userData);
+    if (userData && userData) {
       if (password == encryptor.decrypt(userData.password)) {
         console.log(password, password);
         res.send({ success: true, approved: true, Class: userData.proctorClass, dep: userData.proctorDep, div: userData.proctorDiv });
