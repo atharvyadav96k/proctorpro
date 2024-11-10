@@ -1,3 +1,4 @@
+![Description of image](https://i.postimg.cc/mgdHqg8S/Screenshot-2024-11-10-221950.png)
 # College Attendance Management System
 
 Welcome to the College Attendance Management System! This full-stack application is designed to help colleges efficiently manage student attendance, track absentees, and streamline communication between teachers and students. Teachers can easily record attendance and get reports on student presence, while students can view their attendance history.
@@ -37,4 +38,4 @@ Make sure you have the following installed on your local machine:
 
 2. Install dependencies
   ```bash
-  npm i 
+   npm i 
