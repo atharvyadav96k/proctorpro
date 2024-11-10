@@ -38,4 +38,4 @@ Make sure you have the following installed on your local machine:
 
 2. Install dependencies
   ```bash
-   npm i 
+-   npm i 
